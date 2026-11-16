@@ -1,0 +1,442 @@
+import type { N3comDatabase } from '../domain/types';
+
+export const DEFAULT_EXERCISE_CATEGORIES = [
+  'Técnica',
+  'Coordinación',
+  'Desplazamiento',
+  'Defensa',
+  'Ataque',
+  'Trabajo colectivo',
+];
+
+export function createEmptyDatabase(): N3comDatabase {
+  return {
+    schemaVersion: 1,
+    activeTeamId: null,
+    exerciseCategories: [...DEFAULT_EXERCISE_CATEGORIES],
+    teams: [],
+    players: [],
+    formations: [],
+    plays: [],
+    exercises: [],
+    sessions: [],
+    rivals: [],
+    matches: [],
+    objectives: [],
+    stats: [],
+    evaluations: [],
+  };
+}
+
+export function createDemoDatabase(): N3comDatabase {
+  const now = '2026-11-10T10:00:00.000Z';
+  const teamId = 'team_condores';
+
+  const players = [
+    {
+      id: 'pl_1',
+      teamId,
+      name: 'Marta Gómez',
+      number: '4',
+      role: 'Armadora / Pases',
+      active: true,
+      notes: 'Buena lectura de cancha y pase corto preciso.',
+      createdAt: now,
+    },
+    {
+      id: 'pl_2',
+      teamId,
+      name: 'Carlos Ruiz',
+      number: '7',
+      role: 'Delantero / Lanzador',
+      active: true,
+      notes: 'Lanzamiento profundo a las esquinas.',
+      createdAt: now,
+    },
+    {
+      id: 'pl_3',
+      teamId,
+      name: 'Elena Sosa',
+      number: '10',
+      role: 'Central / Cobertura',
+      active: true,
+      notes: 'Referente comunicacional en defensa.',
+      createdAt: now,
+    },
+    {
+      id: 'pl_4',
+      teamId,
+      name: 'Jorge Vera',
+      number: '12',
+      role: 'Zaguero / Recepción',
+      active: true,
+      notes: 'Seguro en recepción de saque flotado.',
+      createdAt: now,
+    },
+    {
+      id: 'pl_5',
+      teamId,
+      name: 'Susana Díaz',
+      number: '5',
+      role: 'Delantera / Red',
+      active: true,
+      notes: 'Rápida para cerrar espacios cerca de la red.',
+      createdAt: now,
+    },
+    {
+      id: 'pl_6',
+      teamId,
+      name: 'Héctor Molina',
+      number: '8',
+      role: 'Zaguero / Saque',
+      active: true,
+      notes: 'Saque dirigido constante.',
+      createdAt: now,
+    },
+  ];
+
+  const formationBasePlayers = [
+    { id: 'fp_1', playerId: 'pl_1', label: 'Marta', number: '4', x: 50, y: 38, color: '#0284c7' },
+    { id: 'fp_2', playerId: 'pl_2', label: 'Carlos', number: '7', x: 22, y: 24, color: '#0284c7' },
+    { id: 'fp_3', playerId: 'pl_5', label: 'Susana', number: '5', x: 78, y: 24, color: '#0284c7' },
+    { id: 'fp_4', playerId: 'pl_4', label: 'Jorge', number: '12', x: 24, y: 74, color: '#0f766e' },
+    { id: 'fp_5', playerId: 'pl_3', label: 'Elena', number: '10', x: 50, y: 66, color: '#0f766e' },
+    { id: 'fp_6', playerId: 'pl_6', label: 'Héctor', number: '8', x: 76, y: 74, color: '#0f766e' },
+  ];
+
+  const formations = [
+    {
+      id: 'form_1',
+      teamId,
+      name: 'Recepción W (6 jugadores)',
+      category: 'Recepción',
+      tags: ['Base', 'Defensa', '6v6'],
+      players: formationBasePlayers,
+      notes: 'Distribución equilibrada para cubrir saque rival y habilitar pase al centro.',
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: 'form_2',
+      teamId,
+      name: 'Cobertura Red Alta',
+      category: 'Ataque / Cobertura',
+      tags: ['Red', 'Transición'],
+      players: [
+        { id: 'fp_21', playerId: 'pl_2', label: 'Carlos', number: '7', x: 28, y: 18, color: '#0284c7' },
+        { id: 'fp_22', playerId: 'pl_1', label: 'Marta', number: '4', x: 52, y: 22, color: '#0284c7' },
+        { id: 'fp_23', playerId: 'pl_5', label: 'Susana', number: '5', x: 76, y: 20, color: '#0284c7' },
+        { id: 'fp_24', playerId: 'pl_4', label: 'Jorge', number: '12', x: 22, y: 64, color: '#0f766e' },
+        { id: 'fp_25', playerId: 'pl_3', label: 'Elena', number: '10', x: 50, y: 52, color: '#0f766e' },
+        { id: 'fp_26', playerId: 'pl_6', label: 'Héctor', number: '8', x: 78, y: 66, color: '#0f766e' },
+      ],
+      notes: 'Adelanta a Elena para cubrir devoluciones cortas tras lanzamiento.',
+      createdAt: now,
+      updatedAt: now,
+    },
+  ];
+
+  const plays = [
+    {
+      id: 'play_1',
+      teamId,
+      name: 'Salida por diagonal derecha',
+      description: 'Recepción en zona 6 hacia Marta y pase rápido a Carlos para lanzamiento cruzado.',
+      formationId: 'form_1',
+      formationNameSnapshot: 'Recepción W (6 jugadores)',
+      players: formationBasePlayers,
+      movements: [
+        { id: 'mv_1', kind: 'pass' as const, from: { x: 50, y: 66 }, to: { x: 50, y: 38 }, label: '1er pase' },
+        { id: 'mv_2', kind: 'pass' as const, from: { x: 50, y: 38 }, to: { x: 22, y: 24 }, label: 'Habilitación' },
+        { id: 'mv_3', kind: 'attack' as const, from: { x: 22, y: 24 }, to: { x: 82, y: 8 }, label: 'Lanzamiento' },
+      ],
+      zones: [
+        { id: 'zn_1', x: 65, y: 4, width: 30, height: 14, label: 'Zona objetivo', color: '#f59e0b' },
+      ],
+      tacticalObjective: 'Evitar el centro bloqueado y buscar el fondo derecho.',
+      notes: 'Cuidar que Héctor cierre el espacio libre si el rival devuelve corto.',
+      createdAt: now,
+      updatedAt: now,
+    },
+  ];
+
+  const exercises = [
+    {
+      id: 'ex_1',
+      teamId,
+      name: 'Triángulo de pase y comunicación',
+      description: 'Tres jugadores en triángulo realizan atrapes limpios y pases anunciados en voz alta.',
+      objective: 'Mejorar precisión del primer pase y comunicación verbal.',
+      category: 'Trabajo colectivo',
+      difficulty: 'Básico' as const,
+      estimatedMinutes: 15,
+      materials: '2 pelotas de Newcom, 3 conos',
+      indications: 'Cantar siempre el nombre del receptor antes de soltar el balón.',
+      notes: 'Ideal para entrada en calor técnica.',
+      createdAt: now,
+    },
+    {
+      id: 'ex_2',
+      teamId,
+      name: 'Desplazamiento lateral en zona zaguera',
+      description: 'Cobertura de lanzamientos dirigidos a las esquinas traseras con retorno al centro.',
+      objective: 'Reducir espacios vacíos en recepción profunda.',
+      category: 'Desplazamiento',
+      difficulty: 'Intermedio' as const,
+      estimatedMinutes: 20,
+      materials: '4 pelotas, 4 conos delimitadores',
+      indications: 'Mantener centro de gravedad bajo y pies orientados hacia la red.',
+      notes: 'Controlar pausas entre series.',
+      createdAt: now,
+    },
+    {
+      id: 'ex_3',
+      teamId,
+      name: 'Saque dirigido por zonas',
+      description: 'Series de 10 saques apuntando a zonas 1, 5 y 6 delimitadas con aros.',
+      objective: 'Aumentar efectividad y control de profundidad en el saque.',
+      category: 'Técnica',
+      difficulty: 'Intermedio' as const,
+      estimatedMinutes: 15,
+      materials: '6 pelotas, 3 aros o cintas',
+      indications: 'Priorizar regularidad antes que potencia.',
+      notes: 'Registrar porcentaje de aciertos.',
+      createdAt: now,
+    },
+  ];
+
+  const rivals = [
+    {
+      id: 'riv_1',
+      teamId,
+      name: 'Águilas del Sur',
+      category: '+60 Mixto',
+      strengths: 'Saque largo muy constante hacia zona 5.',
+      weaknesses: 'Les cuesta cubrir pelotas cortas detrás de la línea de ataque.',
+      tacticalNotes: 'Rotar recepción y buscar lanzamientos cortos cruzados.',
+      createdAt: now,
+    },
+    {
+      id: 'riv_2',
+      teamId,
+      name: 'Estrella Norte',
+      category: '+60 Mixto',
+      strengths: 'Buena altura en la red y juego ordenado.',
+      weaknesses: 'Baja movilidad lateral cuando se cambia rápido de lado.',
+      tacticalNotes: 'Mover el balón de banda a banda antes de definir.',
+      createdAt: now,
+    },
+  ];
+
+  const matches = [
+    {
+      id: 'match_1',
+      teamId,
+      rivalId: 'riv_1',
+      rivalName: 'Águilas del Sur',
+      date: '2026-11-02',
+      competition: 'Liga Regional — Fecha 4',
+      result: 'ganado' as const,
+      scoreSummary: '2 - 1 (15-12, 11-15, 15-10)',
+      generalNotes: 'Gran reacción en el tercer set tras ajustar la recepción.',
+      strengths: ['Actitud en el cierre del 3er set', 'Pases limpios desde zona central'],
+      weaknesses: ['Desconexión en recepción profunda al inicio del 2do set'],
+      observations: ['El rival cargó el saque sobre zona 5 durante todo el segundo set.'],
+      createdAt: now,
+    },
+    {
+      id: 'match_2',
+      teamId,
+      rivalId: 'riv_2',
+      rivalName: 'Estrella Norte',
+      date: '2026-11-09',
+      competition: 'Liga Regional — Fecha 5',
+      result: 'perdido' as const,
+      scoreSummary: '0 - 2 (13-15, 12-15)',
+      generalNotes: 'Partido parejo definido por errores no forzados en momentos clave.',
+      strengths: ['Buena lectura de ataque de Carlos y Susana'],
+      weaknesses: ['Errores de saque en cierre de sets', 'Falta de comunicación entre zagueros'],
+      observations: ['Necesitamos trabajar transiciones defensa-ataque bajo presión.'],
+      createdAt: now,
+    },
+  ];
+
+  const objectives = [
+    {
+      id: 'obj_1',
+      teamId,
+      title: 'Mejorar comunicación en recepción profunda',
+      description: 'Evitar dudas entre zagueros ante saques largos a zona 5 y 6.',
+      sourceMatchId: 'match_1',
+      sourceLabel: 'Partido vs Águilas del Sur (2026-11-02)',
+      status: 'en_progreso' as const,
+      createdAt: now,
+      updatedAt: now,
+    },
+    {
+      id: 'obj_2',
+      teamId,
+      title: 'Reducir errores de saque en cierre de set',
+      description: 'Asegurar saque dirigido en puntos decisivos sin regalar puntos directos.',
+      sourceMatchId: 'match_2',
+      sourceLabel: 'Partido vs Estrella Norte (2026-11-09)',
+      status: 'pendiente' as const,
+      createdAt: now,
+      updatedAt: now,
+    },
+  ];
+
+  const sessions = [
+    {
+      id: 'ses_1',
+      teamId,
+      name: 'Ajuste de recepción y comunicación',
+      date: '2026-11-05',
+      objectiveId: 'obj_1',
+      objectiveText: 'Mejorar comunicación en recepción profunda',
+      exercises: [
+        { id: 'se_1', exerciseId: 'ex_1', order: 1, plannedMinutes: 15, completed: true },
+        { id: 'se_2', exerciseId: 'ex_2', order: 2, plannedMinutes: 25, completed: true },
+      ],
+      plannedMinutes: 40,
+      actualMinutes: 45,
+      status: 'realizada' as const,
+      plannedNotes: 'Enfoque en canto temprano del balón.',
+      actualNotes: 'El equipo respondió bien; se extendió 5 min el desplazamiento lateral.',
+      improvementsNeeded: 'Seguir reforzando cobertura de Héctor en zona 1.',
+      completedAt: '2026-11-05T20:30:00.000Z',
+      createdAt: now,
+    },
+    {
+      id: 'ses_2',
+      teamId,
+      name: 'Precisión de saque y transición',
+      date: '2026-11-18',
+      objectiveId: 'obj_2',
+      objectiveText: 'Reducir errores de saque en cierre de set',
+      exercises: [
+        { id: 'se_3', exerciseId: 'ex_1', order: 1, plannedMinutes: 15, completed: false },
+        { id: 'se_4', exerciseId: 'ex_3', order: 2, plannedMinutes: 20, completed: false },
+      ],
+      plannedMinutes: 35,
+      status: 'planificada' as const,
+      plannedNotes: 'Simular situaciones de 13-13 para entrenar saque bajo presión.',
+      createdAt: now,
+    },
+  ];
+
+  const stats = [
+    {
+      id: 'st_1',
+      teamId,
+      matchId: 'match_1',
+      playerId: 'pl_1',
+      metrics: {
+        effectiveServes: 4,
+        serveErrors: 1,
+        positiveReceptions: 7,
+        accuratePasses: 14,
+        effectiveThrows: 3,
+        unforcedErrors: 2,
+      },
+      notes: 'Muy sólida en distribución.',
+      updatedAt: now,
+    },
+    {
+      id: 'st_2',
+      teamId,
+      matchId: 'match_1',
+      playerId: 'pl_2',
+      metrics: {
+        effectiveServes: 3,
+        serveErrors: 0,
+        positiveReceptions: 4,
+        accuratePasses: 6,
+        effectiveThrows: 9,
+        unforcedErrors: 2,
+      },
+      updatedAt: now,
+    },
+    {
+      id: 'st_3',
+      teamId,
+      matchId: 'match_2',
+      playerId: 'pl_1',
+      metrics: {
+        effectiveServes: 2,
+        serveErrors: 2,
+        positiveReceptions: 5,
+        accuratePasses: 11,
+        effectiveThrows: 2,
+        unforcedErrors: 3,
+      },
+      updatedAt: now,
+    },
+    {
+      id: 'st_4',
+      teamId,
+      matchId: 'match_2',
+      playerId: 'pl_2',
+      metrics: {
+        effectiveServes: 2,
+        serveErrors: 1,
+        positiveReceptions: null,
+        accuratePasses: 5,
+        effectiveThrows: 7,
+        unforcedErrors: 3,
+      },
+      notes: 'No se registraron recepciones individuales en el 2do set.',
+      updatedAt: now,
+    },
+  ];
+
+  const evaluations = [
+    {
+      id: 'ev_1',
+      teamId,
+      playerId: 'pl_1',
+      matchId: 'match_1',
+      date: '2026-11-03',
+      rating: 8,
+      summary: 'Excelente lectura de juego y calma en el tercer set.',
+      createdAt: now,
+    },
+    {
+      id: 'ev_2',
+      teamId,
+      playerId: 'pl_2',
+      matchId: 'match_2',
+      date: '2026-11-10',
+      rating: 7,
+      summary: 'Buena efectividad ofensiva, mejorar paciencia en pelotas divididas.',
+      createdAt: now,
+    },
+  ];
+
+  return {
+    schemaVersion: 1,
+    activeTeamId: teamId,
+    exerciseCategories: [...DEFAULT_EXERCISE_CATEGORIES],
+    teams: [
+      {
+        id: teamId,
+        name: 'Los Cóndores +60',
+        category: '+60 Mixto',
+        season: '2026',
+        coachName: 'DT Principal',
+        notes: 'Equipo competitivo de liga regional.',
+        createdAt: now,
+      },
+    ],
+    players,
+    formations,
+    plays,
+    exercises,
+    sessions,
+    rivals,
+    matches,
+    objectives,
+    stats,
+    evaluations,
+  };
+}
