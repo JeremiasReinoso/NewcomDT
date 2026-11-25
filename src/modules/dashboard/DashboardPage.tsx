@@ -46,7 +46,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
       <div className="stack">
         <div className="page-header">
           <div>
-            <h1>Bienvenido a N3com Coach</h1>
+            <h1>Bienvenido a Newcom DT</h1>
             <p>Creá tu primer equipo para comenzar a planificar estrategias, entrenamientos y partidos.</p>
           </div>
           <button className="btn btn-primary" onClick={() => onNavigate('teams')}>
@@ -235,11 +235,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigate }) => {
                   >
                     {m.result === 'ganado'
                       ? 'Ganado'
-                      : m.result === 'perdido'
+                      : m.result === 'perdido'}
                         ? 'Perdido'
-                        : m.result === 'empatado'
-                          ? 'Empatado'
-                          : 'Sin definir'}
                   </span>
                 </div>
               ))}

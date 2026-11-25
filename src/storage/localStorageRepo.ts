@@ -1,7 +1,7 @@
 import type { N3comDatabase } from '../domain/types';
 import { createDemoDatabase, createEmptyDatabase, DEFAULT_EXERCISE_CATEGORIES } from './seedData';
 
-export const STORAGE_KEY = 'n3com_coach_db_v1';
+export const STORAGE_KEY = 'newcom_dt_db_v1';
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -62,7 +62,7 @@ export function exportDatabaseJson(db: N3comDatabase): string {
   return JSON.stringify(
     {
       exportedAt: new Date().toISOString(),
-      app: 'N3com Coach',
+      app: 'Newcom DT',
       data: db,
     },
     null,

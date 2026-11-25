@@ -48,7 +48,7 @@ const AppShell: React.FC = () => {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `n3com-coach-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `newcom-DT-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -71,9 +71,9 @@ const AppShell: React.FC = () => {
     <div className="app-shell">
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         <div className="brand">
-          <img src="./icon.svg" alt="N3com Coach" className="brand-logo" />
+          <img src="./icon.svg" alt="Newcom DT" className="brand-logo" />
           <div style={{ flex: 1 }}>
-            <div className="brand-title">N3com Coach</div>
+            <div className="brand-title">Newcom DT</div>
             <div className="brand-subtitle">Dirección Técnica Newcom</div>
           </div>
           <button
@@ -167,8 +167,8 @@ const AppShell: React.FC = () => {
       <div className="main-area">
         <header className="mobile-topbar">
           <div className="row-gap">
-            <img src="./icon.svg" alt="N3com Coach" style={{ width: 28, height: 28 }} />
-            <strong>N3com Coach</strong>
+            <img src="./icon.svg" alt="Newcom DT" style={{ width: 28, height: 28 }} />
+            <strong>Newcom DT</strong>
           </div>
           <button
             className="btn btn-sm btn-dark"

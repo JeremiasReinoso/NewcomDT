@@ -203,11 +203,8 @@ export const MatchesPage: React.FC = () => {
                       >
                         {m.result === 'ganado'
                           ? 'Ganado'
-                          : m.result === 'perdido'
+                          : m.result === 'perdido'}
                             ? 'Perdido'
-                            : m.result === 'empatado'
-                              ? 'Empatado'
-                              : 'Sin definir'}
                       </span>
                       {m.scoreSummary && <span className="badge">{m.scoreSummary}</span>}
                     </div>

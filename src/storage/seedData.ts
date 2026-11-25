@@ -30,7 +30,7 @@ export function createEmptyDatabase(): N3comDatabase {
 
 export function createDemoDatabase(): N3comDatabase {
   const now = '2026-11-10T10:00:00.000Z';
-  const teamId = 'team_condores';
+  const teamId = 'team_aguilas_doradas';
 
   const players = [
     {
@@ -420,7 +420,7 @@ export function createDemoDatabase(): N3comDatabase {
     teams: [
       {
         id: teamId,
-        name: 'Los Cóndores +60',
+        name: 'Aguilas Doradas',
         category: '+60 Mixto',
         season: '2026',
         coachName: 'DT Principal',
